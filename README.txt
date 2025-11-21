@@ -19,7 +19,8 @@ I. YÊU CẦU HỆ THỐNG
 II. HƯỚNG DẪN CÀI ĐẶT CƠ SỞ DỮ LIỆU (QUAN TRỌNG)
 ------------------------------------------------
 Trước khi mở phần mềm, Thầy/Cô vui lòng nạp dữ liệu vào MySQL.
-Thầy/Cô có thể chọn 1 trong 2 cách dưới đây tùy theo phần mềm đang sử dụng.
+File .sql được đính kèm trong ổ C của bộ cài mà thầy đã chọn 
+Thầy có thể chọn 1 trong 2 cách dưới đây tùy theo phần mềm đang sử dụng.
 
 ------------------------------------------------
 CÁCH 1: DÙNG PHPMYADMIN (NẾU SỬ DỤNG XAMPP)
@@ -70,7 +71,7 @@ III. HƯỚNG DẪN CHẠY PHẦN MỀM
 
 IV. XỬ LÝ LỖI KẾT NỐI (NẾU CÓ)
 ------------------------------
-Nếu mở phần mềm báo lỗi "Lỗi kết nối CSDL", vui lòng kiểm tra:
+Nếu mở phần mềm báo lỗi "Lỗi kết nối CSDL", Thầy vui lòng kiểm tra:
 
 1. Đã bật MySQL (trong XAMPP hoặc Services) chưa?
 2. Tên Database đã tạo có đúng chính xác là "qlgiaovien" không?
