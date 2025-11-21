@@ -10,6 +10,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # Tất cả các thư viện liên quan cần cài để chạy được chương trình một cách mượt mà đã được nén trong file Setup.exe
+# Thầy có thể dùng file setup.exe để cài đặt và mở file DoAnPython.py để kiểm tra code ạ.
 def connect_db():
     return mysql.connector.connect(
         host="localhost",
