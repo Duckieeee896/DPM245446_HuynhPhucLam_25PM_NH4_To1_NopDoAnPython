@@ -3,10 +3,8 @@ from PyInstaller.utils.hooks import collect_all
 
 datas = []
 binaries = []
-hiddenimports = ['babel.numbers']
+hiddenimports = ['mysql.connector.locales.eng.client_error', 'babel.numbers', 'openpyxl']
 tmp_ret = collect_all('tkcalendar')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-tmp_ret = collect_all('babel')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 
