@@ -1,18 +1,15 @@
-import tkinter as tk
-from tkinter import messagebox, ttk, filedialog
-import mysql.connector
-from tkcalendar import DateEntry
-import openpyxl
-from openpyxl import Workbook
-from openpyxl.styles import Font, Alignment, Border, Side
-import warnings
+import tkinter as tk # Thư viện GUI
+from tkinter import messagebox, ttk, filedialog # Thư viện hỗ trợ GUI
+import mysql.connector # Thư viện kết nối MySQL
+from tkcalendar import DateEntry # Thư viện chọn ngày
+import openpyxl # Thư viện làm việc với Excel
+from openpyxl import Workbook # Tạo workbook Excel
+from openpyxl.styles import Font, Alignment, Border, Side # Định dạng Excel
+import warnings # Thư viện xử lý cảnh báo
 
 warnings.filterwarnings("ignore")
-# ---------------------------------------------------------------------------------------------------------------------
-# Tất cả các thư viện liên quan cần cài để chạy được chương trình một cách mượt mà đã được nén trong file Setup.exe
-# Thầy có thể dùng file setup.exe để cài đặt và mở file DoAnPython.py để kiểm tra code ạ.
-# Chúng em xin cảm ơn thầy đã chấm bài của chúng em! Chúc thầy sức khỏe và thành công!
-# ---------------------------------------------------------------------------------------------------------------------
+
+# Kết nối database
 def connect_db():
     return mysql.connector.connect(
         host="localhost",
@@ -20,13 +17,14 @@ def connect_db():
         password="",
         database="qlgiaovien"
     )
+# Trung tâm căn giữa cửa sổ
 def center_window(win, w=950, h=550):
     ws = win.winfo_screenwidth()
     hs = win.winfo_screenheight()
     x = (ws // 2) - (w // 2)
     y = (hs // 2) - (h // 2)
     win.geometry(f'{w}x{h}+{x}+{y}')
-
+# Load dữ liệu từ database vào Treeview
 def load_data():
     for i in tree.get_children():
         tree.delete(i)
@@ -41,7 +39,7 @@ def load_data():
         messagebox.showerror("Lỗi kết nối", str(e))
     finally:
         conn.close()
-
+# Xóa dữ liệu nhập
 def clear_input():
     entry_ma.delete(0, tk.END)
     entry_holot.delete(0, tk.END)
@@ -50,7 +48,7 @@ def clear_input():
     date_entry.set_date("2000-01-01")
     cbb_mon.set("")
     entry_ma.config(state='normal')
-
+# Thêm giáo viên mới
 def ThemGiaoVien():
     ma = entry_ma.get()
     holot = entry_holot.get()
@@ -77,7 +75,7 @@ def ThemGiaoVien():
         messagebox.showerror("Lỗi", str(e))
     finally:
         conn.close()
-
+# Xóa giáo viên
 def XoaGiaoVien():
     selected = tree.selection()
     if not selected:
@@ -95,7 +93,7 @@ def XoaGiaoVien():
         load_data()
         clear_input()
         messagebox.showinfo("Thành công", "Đã xóa giáo viên")
-
+# Sửa thông tin giáo viên
 def SuaGiaoVien(event=None):
     selected = tree.selection()
     if not selected:
@@ -118,7 +116,7 @@ def SuaGiaoVien(event=None):
     gender_var.set(values[3])
     date_entry.set_date(values[4])
     cbb_mon.set(values[5])
-
+# Lưu thông tin giáo viên sau khi sửa
 def LuuGiaoVien():
     ma = entry_ma.get()
     holot = entry_holot.get()
@@ -146,7 +144,7 @@ def LuuGiaoVien():
         messagebox.showerror("Lỗi", str(e))
     finally:
         conn.close()
-
+# Tìm kiếm giáo viên
 def TimKiem():
     search_win = tk.Toplevel(root)
     search_win.title("Tìm kiếm giáo viên")
@@ -182,7 +180,7 @@ def TimKiem():
             conn.close()
 
     tk.Button(search_win, text="Tìm kiếm", command=ThucHienTim).pack(pady=10)
-
+# Xuất dữ liệu ra file Excel
 def XuatExcel():
     conn = connect_db()
     try:
@@ -226,7 +224,8 @@ def XuatExcel():
         messagebox.showerror("Lỗi", str(e))
     finally:
         conn.close()
-        
+
+# Giao diện chính và các chức năng nút bấm
 root = tk.Tk()
 root.title("Quản lý giáo viên phổ thông")
 center_window(root, 750, 550)
@@ -244,7 +243,8 @@ entry_ma.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
 tk.Label(frame_info, text="Môn dạy:").grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
-cbb_mon = ttk.Combobox(frame_info, values=["Toán", "Vật Lý", "Hóa Học", "Sinh Học", "Ngữ Văn", "Tiếng Anh", "Lịch Sử", "Địa Lý", "Tin Học", "GDCD"], width=18, state="readonly")
+cbb_mon = ttk.Combobox(frame_info, values=["Toán", "Vật Lý", "Hóa Học", "Sinh Học", "Ngữ Văn", "Tiếng Anh", "Lịch Sử", "Địa Lý", "Tin Học", "GDCD"],
+width=18, state="readonly")
 cbb_mon.grid(row=0, column=3, padx=5, pady=5, sticky="w")
 
 tk.Label(frame_info, text="Họ lót:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
@@ -285,6 +285,7 @@ tk.Button(frame_btn, text="Thoát", width=btn_width, command=root.quit).grid(row
 
 tk.Label(root, text="Danh sách giáo viên", font=("Arial", 10, "bold")).pack(pady=5, anchor="w", padx=20)
 
+# Bảng hiển thị dữ liệu giáo viên
 columns = ("ma_gv", "holot", "ten", "gioitinh", "ngaysinh", "monday")
 tree = ttk.Treeview(root, columns=columns, show="headings", height=10)
 
@@ -306,6 +307,7 @@ tree.pack(padx=20, pady=5, fill="both", expand=True)
 
 tree.bind("<Double-1>", SuaGiaoVien)
 
+# Khởi động chương trình
 load_data()
 clear_input()
 root.mainloop()
